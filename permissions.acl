@@ -24,15 +24,6 @@ rule OutletsCanUpdateOrderDetails {
     action: ALLOW
 }
 
-rule OwnerHasFullAccessToTheirAssets {
-    description: "Allow all participants full access to their assets"
-    participant(p): "com.box8.Customer"
-    operation: ALL
-    resource(r): "com.box8.Order"
-    condition: (r.customer.getIdentifier() === p.getIdentifier())
-    action: ALLOW
-}
-
 rule SystemACL {
     description: "System ACL to permit all access"
     participant: "org.hyperledger.composer.system.Participant"

@@ -7,7 +7,7 @@
 1. Paticipants - Customer, Outlet
 2. Assets - Order
 3. Transactions - updateOrderStatus, transferOrder
-4. Events - orderStatusUpdateEvent, `
+4. Events - orderStatusUpdateEvent, orderTransferEvent
 5. orderStatus - placed, received, prepared, dispatched, delivered, settled, cancelled, transferred
 
 #### Restrictions defined for orderStatusUpdate
