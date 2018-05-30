@@ -1,0 +1,58 @@
+rule CustomerCanCreateOrder {
+    description: "Allow customers to create orders."
+    participant: "com.box8.Customer"
+    operation: CREATE
+    resource: "com.box8.Order"
+    action: ALLOW
+}
+
+rule CustomerCanAccessTheirOrder {
+    description: "Allow customers to read their order details."
+    participant(p): "com.box8.Customer"
+    operation: READ
+    resource(r): "com.box8.Order"
+    condition: (r.customer.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule OutletsCanUpdateOrderDetails {
+    description: "Outlets can update order details under their outlet."
+    participant(p): "com.box8.Outlet"
+    operation: UPDATE
+    resource(r): "com.box8.Order"
+    condition: (r.outlet.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule OwnerHasFullAccessToTheirAssets {
+    description: "Allow all participants full access to their assets"
+    participant(p): "com.box8.Customer"
+    operation: ALL
+    resource(r): "com.box8.Order"
+    condition: (r.customer.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule SystemACL {
+    description: "System ACL to permit all access"
+    participant: "org.hyperledger.composer.system.Participant"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}

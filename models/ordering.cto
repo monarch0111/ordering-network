@@ -1,0 +1,53 @@
+namespace com.box8
+
+enum orderStatus {
+  o placed
+  o received
+  o prepared
+  o dispatched
+  o delivered
+  o settled
+  o cancelled
+  o transferred
+}
+
+participant Customer identified by customerId {
+  o String customerId
+  o String name
+  o String phoneNo
+}
+
+participant Outlet identified by outletId {
+  o String outletId
+  o String outletName
+}
+
+asset Order identified by trackingId {
+  o String trackingId
+  o String amount
+  o orderStatus status
+  --> Customer customer
+  --> Outlet outlet
+}
+
+transaction transferOrder {
+  --> Order order
+  --> Outlet newOutlet
+}
+
+transaction updateOrderStatus {
+  --> Order order
+  o orderStatus newStatus
+}
+
+event orderStatusUpdateEvent {
+  --> Order order
+  o orderStatus previousState
+  o orderStatus newState
+}
+
+event orderTransferEvent {
+  --> Order order
+  --> Outlet previousOutlet
+  --> Outlet newOutlet
+}
